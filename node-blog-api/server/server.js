@@ -27,25 +27,6 @@ app.post('/blogs', (req, res) => {
   });
 });
 
-
-
-// app.get('/blogs/:id', (req, res) => {
-//   var id = req.params.id;
-
-//   if (!ObjectID.isValid(id)) {
-//     return res.status(404).send();
-//   }
-
-//   Blog.findById(id).then((blog) => {
-//     if (!blog) {
-//       return res.status(404).send();
-//     }
-//     res.send({blog});
-//   }).catch((e) => {
-//     res.status(400).send();
-//   });
-// });
-
 app.listen(3000, () => {
   console.log('Started on port 3000');
 });
@@ -57,18 +38,3 @@ module.exports = {app};
 
 
 
-// var Blog1 = new Blog({
-// 	title:'ArticleReader',
-// 	tags:'if u read,u get knowledge',
-// 	body:'All the articles',
-// 	author:'krishnakanth',
-// 	creationdate: new Date(),
-// 	updatedate:'24/10/2016',
-// 	status:'okay'
-// });
-
-// Blog1.save().then((doc) => {
-// 	console.log(JSON.stringify(doc, undefined, 2));
-// }, (e) => {
-// 	console.log('Unable to save',e);
-// });
