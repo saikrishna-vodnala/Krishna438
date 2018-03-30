@@ -27,6 +27,15 @@ app.post('/blogs', (req, res) => {
   });
 });
 
+// getting all the collaction data
+app.get('/blogs', (req, res) => {
+  Blog.find().then((blogs) => {
+    res.send({blogs});
+  }, (e) => {
+    res.status(400).send(e);
+  })
+});
+
 app.listen(3000, () => {
   console.log('Started on port 3000');
 });
