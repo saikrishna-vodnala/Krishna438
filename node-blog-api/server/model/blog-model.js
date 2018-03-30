@@ -1,14 +1,14 @@
 var mongoose = require('mongoose');
 
-var Blog = mongoose.model('blog',{
+var Blog = mongoose.model('blog1',{
 	title:{
 		type: String,
 		required: true,
 		default: 'Blog-Title'
 	},
 	tags:{
-		type: String,
-		default:'tag'
+		type: Array,
+		default:null
 	},
 	body:{
 		type: String,
@@ -19,14 +19,16 @@ var Blog = mongoose.model('blog',{
 		default:'Blog-Author'
 	},
 	creationdate:{
-		type: String
+		type: String,
+		default:"30/04/2018"
 	},
 	updatedate:{
-		type: String
+		type: String,
+		default: "30/03/2018"
 	},
 	status:{
-		type: String,
-		default:'Blog-status'
+		type: Boolean,
+		default:false
 	}
 });
 
