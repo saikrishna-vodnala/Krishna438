@@ -51,7 +51,7 @@ app.get('/blogs/me', (req, res) => {
 //deleting blog by token
 app.delete('/blogs/delete', (req, res) => {
   var token = req.header('x-auth');
-  Blog.findByToken(token).then((blog) => {
+    Blog.findByToken(token).then((blog) => {
     if (!blog) {
       return res.status(404).send();
     }
@@ -69,9 +69,11 @@ app.patch('/blogs/:id', (req, res) => {
   var body = _.pick(req.body, ['title', 'author']);
   Blog.findByIdAndUpdate(id, {
     $set: body
-  }, {
-    new: true
-  }).then((blog) => {
+  }
+  , {
+    new: true //returnOriginal:false
+  }
+  ).then((blog) => {
     if (!blog) {
       return res.status(404).send();
     }
