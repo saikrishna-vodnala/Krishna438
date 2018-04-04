@@ -63,17 +63,21 @@ app.delete('/blogs/delete', (req, res) => {
   });
 });
      
+ // updating blog by id    
 app.patch('/blogs/:id', (req, res) => {
   var id = req.params.id;
   var body = _.pick(req.body, ['title', 'author']);
-
-  
-  Blog.findByIdAndUpdate(id, {$set: body}, {new: true}).then((blog) => {
+  Blog.findByIdAndUpdate(id, {
+    $set: body
+  }, {
+    new: true
+  }).then((blog) => {
     if (!blog) {
       return res.status(404).send();
     }
-
-    res.send({blog});
+    res.send({
+      blog
+    });
   }).catch((e) => {
     res.status(400).send();
   })
