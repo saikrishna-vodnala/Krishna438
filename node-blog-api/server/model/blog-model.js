@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+//const _ = require('lodash');
 
 var BlogSchema = new mongoose.Schema({
 	title:{
 		type: String,
 		required: true,
-		default: 'Blog-Title',
-		unique:true
+		default: 'Blog-Title'
 	},
 	tags:{
 		type: Array,
@@ -16,10 +16,15 @@ var BlogSchema = new mongoose.Schema({
 		type: String,
 		default:'Blog-Body'
 	},
-	author:{
-		type: String,
-		default:'Blog-Author'
-	},
+   author:{
+       type:String,
+       default:'Blog-Author'
+         },
+  
+	// author:{
+ //   type: mongoose.Schema.Types.ObjectId
+		
+	// },
 	creationdate:{
 		type: String,
 		default:"30/04/2018"
@@ -44,11 +49,46 @@ var BlogSchema = new mongoose.Schema({
   }]
 })
 
+var UserSchema = new mongoose.Schema({
+ name:{
+  type:'String',
+  default:'sai'
+ },
+ title:{
+  type:'String',
+  default:'Title'
+ },
+ tokens: [{
+    access: {
+      type: String,
+      required: true
+    },
+    token: {
+      type: String,
+      required: true
+    }
+  }]
+})
+
+UserSchema.methods.generateAuthToken = function () {
+  var user = this;
+  var access = 'auth';
+  var token = jwt.sign({_id: user._id.toHexString(), access}, 'abc123').toString();
+  user.tokens.push({access, token});
+
+  return user.save().then(() => {
+    return token;
+  });
+};
+
+
+
 BlogSchema.methods.generateAuthToken = function () {
   var blog = this;
   var access = 'auth';
-  var token = jwt.sign({_id: blog._id.toHexString(), access}, 'abc123').toString();
 
+  var token = jwt.sign({_id: blog._id.toHexString(), access}, 'abc123').toString();
+  console.log(token);
   blog.tokens.push({access, token});
 
   return blog.save().then(() => {
@@ -73,7 +113,7 @@ BlogSchema.statics.findByToken = function (token) {
   });
 };
 
-BlogSchema.statics.findByToken = function (token) {
+BlogSchema.statics.findByAuthor = function (token) {
   var Blog = this;
   var decoded;
 
@@ -91,5 +131,7 @@ BlogSchema.statics.findByToken = function (token) {
 };
 
 var Blog = mongoose.model('blog1', BlogSchema);
+//var User = mongoose.model('user1', UserSchema);
 
 module.exports ={Blog};
+//module.exports ={User};
