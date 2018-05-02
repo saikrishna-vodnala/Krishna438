@@ -6,19 +6,19 @@ var BlogSchema = new mongoose.Schema({
 	title:{
 		type: String,
 		required: true,
-		default: 'Blog-Title'
+		//default: 'Blog-Title'
 	},
 	tags:{
 		type: Array,
-		default:["tags"]
+		//default:["tags"]
 	},
 	body:{
 		type: String,
-		default:'Blog-Body'
+		//default:'Blog-Body'
 	},
    author:{
        type:String,
-       default:'Blog-Author'
+      // default:'Blog-Author'
          },
   
 	// author:{
@@ -27,15 +27,15 @@ var BlogSchema = new mongoose.Schema({
 	// },
 	creationdate:{
 		type: String,
-		default:"30/04/2018"
+		//default:"30/04/2018"
 	},
 	updatedate:{
 		type: String,
-		default: "30/03/2018"
+		//default: "30/03/2018"
 	},
 	status:{
 		type: Boolean,
-		default:true
+		//default:true
 	},
   tokens: [{
     access: {
@@ -88,7 +88,7 @@ BlogSchema.methods.generateAuthToken = function () {
   var access = 'auth';
 
   var token = jwt.sign({_id: blog._id.toHexString(), access}, 'abc123').toString();
-  console.log(token);
+  //console.log(token);
   blog.tokens.push({access, token});
 
   return blog.save().then(() => {

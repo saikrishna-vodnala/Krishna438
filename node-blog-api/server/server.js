@@ -28,7 +28,7 @@ app.post('/user/create', (req, res) => {
   var user = new User(body);
   user.save().then(() => {
     return user.generateAuthToken();
-    console.log(token)
+    //console.log(token)
   }).then((token) => {
     res.header('x-auth', token).send(user);
   }).catch((e) => {
@@ -49,28 +49,28 @@ app.get('/blogs', (req, res) => {
 });
 
 // getting blogs by author
-app.get('/blogs/:author', (req, res) => {
-  var author = req.params.author;
-  Blog.find({"author": author}).then((blogs) => {
-    res.send(blogs);
-  }, (err) => {
-    res.status(400).send(e);
-  })
-});
-
-// app.get('/blogs/:id', (req, res) => {
-//   var id = req.params.id;
-//   Blog.findOne({_id: new ObjectID(id)}).then((blogs) => {
+// app.get('/blogs/:author', (req, res) => {
+//   var author = req.params.author;
+//   Blog.find({"author": author}).then((blogs) => {
 //     res.send(blogs);
-//   }, (e) => {
+//   }, (err) => {
 //     res.status(400).send(e);
 //   })
 // });
 
+app.get('/blogs/:id', (req, res) => {
+  var id = req.params.id;
+  Blog.findOne({_id: new ObjectID(id)}).then((blogs) => {
+    res.send(blogs);
+  }, (e) => {
+    res.status(400).send(e);
+  })
+});
+
 //getting blog by token
 app.get('/blogs/me', (req, res) => {
   var token = req.header('x-auth');
-  console.log(token);
+  //console.log(token);
   Blog.findByToken(token).then((blog) => {
     if (!blog) {
       return res.status(404).send();
@@ -93,6 +93,18 @@ app.delete('/blogs/delete/:author', (req, res) => {
     res.send({
       blog
     });
+  }).catch((e) => {
+    res.status(400).send();
+  });
+});
+
+app.delete('/blogs/:id', (req, res) => {
+  var id = req.params.id;
+  Blog.findByIdAndRemove({_id: new ObjectID(id)}).then((blog) => {
+    if(!blog) {
+      return res.status(404).send();
+    }
+    res.send({blog});
   }).catch((e) => {
     res.status(400).send();
   });
